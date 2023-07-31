@@ -1,17 +1,16 @@
-import { useReducer } from 'react';
 import SavedColors from './saved-colors';
 import RelatedColors from './related-colors';
 import AdjustColors from './adjust-colors';
 import ColorPicker from './color-picker';
-import { colorReducer, initialState } from './color-reducer';
+import { useContext } from 'react';
+import { ColorContext } from '../context';
 
 const Application = () => {
-  const [state, dispatch] = useReducer(colorReducer, initialState);
-
+  const { hexColor, dispatch } = useContext(ColorContext);
   return (
     <div className="mx-auto grid max-w-3xl grid-cols-1 gap-8 p-8 pb-40 dark:bg-slate-900 dark:text-white sm:grid-cols-2">
       <ColorPicker
-        hexColor={state.hexColor}
+        hexColor={hexColor}
         onChange={(e) =>
           dispatch({
             type: 'update-hex-color',
@@ -19,9 +18,9 @@ const Application = () => {
           })
         }
       />
-      <AdjustColors dispatch={dispatch} hexColor={state.hexColor} />
-      <RelatedColors dispatch={dispatch} hexColor={state.hexColor} />
-      <SavedColors hexColor={state.hexColor} />
+      <AdjustColors dispatch={dispatch} hexColor={hexColor} />
+      <RelatedColors dispatch={dispatch} hexColor={hexColor} />
+      <SavedColors hexColor={hexColor} />
     </div>
   );
 };
